@@ -4,6 +4,7 @@ import argparse
 import configparser
 from pathlib import Path
 from colorama import init, Fore
+from hpass.hpass_gui import gui_start
 
 init(autoreset=True)
 
@@ -15,10 +16,11 @@ def main():
     if len(sys.argv) == 1:
         sys.argv.append('--help')
     parser = argparse.ArgumentParser(description='Hello Password')
-    parser.add_argument('-v', '--version', help='查看版本信息', action='version', version='%(prog)s v0.0.1')
-    parser.add_argument('-r', '--random_password', help='随机生成包含大小写字母/数字/符号的密码 (E.g hpass -r 10)', action='store',
+    parser.add_argument('-v', '--version', help='查看版本信息', action='version', version='%(prog)s v0.0.2')
+    parser.add_argument('-r', '--random_password', help='随机生成包含大小写字母/数字/符号的密码 (E.g hpass -r 16)', action='store',
                         dest='password_length')
     parser.add_argument('-i', '--initialization', help='在当前目录下创建一个新的密码存储文件', action='store', dest='file_name')
+    parser.add_argument('-g', '--gui', help='启动GUI工作台', action='store', dest='primary_password')
     args = parser.parse_args()
     if args.file_name:
         file_name = args.file_name
@@ -41,6 +43,8 @@ def main():
             print(Fore.GREEN + rp)
         except ValueError:
             print(Fore.RED + '参数 password_length 需要一个数字 (E.g hpass -r 16)')
+    if args.primary_password:
+        gui_start()
 
 
 if __name__ == '__main__':
