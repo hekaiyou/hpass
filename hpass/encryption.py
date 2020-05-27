@@ -17,14 +17,14 @@ def random_password(length):
 
 
 def rc4_init_s_box(key):
-    print("我这里没管秘钥小于256的情况，小于256不断重复填充即可")
     s_box = list(range(256))
-    print("原来的 s 盒：%s" % s_box)
     j = 0
     for i in range(256):
-        j = (j + s_box[i] + ord(key[i % len(key)])) % 256
+        j_step_1 = j + s_box[i]
+        j_step_2 = j_step_1 + ord(key[i % len(key)])
+        j_step_3 = j_step_2 % 256
+        j = j_step_3
         s_box[i], s_box[j] = s_box[j], s_box[i]
-    print("混乱后的 s 盒：%s" % s_box)
     return s_box
 
 
@@ -42,9 +42,7 @@ def rc4_res_program(s_box, message):
 
 
 def encryption_rc4(key, message):
-    print("RC4加密主函数")
     s_box = rc4_init_s_box(key)
-    print("调用加密程序成功。")
     res = rc4_res_program(s_box, message)
     print("res用于加密字符串，加密后是：%res" % res)
     cipher = "".join(res)
@@ -56,9 +54,7 @@ def encryption_rc4(key, message):
 
 
 def decrypt_rc4(key, message):
-    print("RC4解密主函数调用成功")
     s_box = rc4_init_s_box(key)
-    print("调用解密程序成功。")
     plain = base64.b64decode(message.encode('utf-8'))
     plain = bytes.decode(plain)
     res = rc4_res_program(s_box, plain)
