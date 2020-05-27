@@ -1,11 +1,8 @@
 import sys
 import json
-import hmac
-import base64
 import getpass
 import argparse
 from pathlib import Path
-from hashlib import sha256
 from colorama import init, Fore
 # from hpass.hpass_gui import gui_start
 # from hpass.random_pass import random_password
