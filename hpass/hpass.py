@@ -7,7 +7,7 @@ from colorama import init, Fore
 # from hpass.hpass_gui import gui_start
 # from hpass.random_pass import random_password
 from hpass_gui import gui_start
-from encryption import random_password
+from encryption import random_password, hmac_sha256_digest
 
 init(autoreset=True)
 
@@ -26,10 +26,11 @@ def main():
 
     if args.init_switch:
         _primary_password = getpass.getpass("Your primary password: ")
-        print(_primary_password)
+        _primary = hmac_sha256_digest(value=_primary_password).decode('utf-8')
         config_dir = str(Path(__file__).resolve().parents[0] / 'config.json')
         hello_password_data_dir = str(Path.cwd() / 'helloPasswordData.json')
-        config_json = {'config_dir': config_dir, 'hello_password_data_dir': hello_password_data_dir}
+        config_json = {'primary': _primary, 'hello_password_data_dir': hello_password_data_dir}
+        print(config_json)
         hello_password_data_json = {'account': {}}
         with open(config_dir, 'w', encoding='utf-8') as f:
             json.dump(config_json, f, indent=4, ensure_ascii=False)
