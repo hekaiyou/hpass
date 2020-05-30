@@ -71,8 +71,3 @@ def hmac_sha256_digest(value, key='35a07615d258ae2e067879a472e050cc3716'):
     data = value.encode('utf-8')
     signature = base64.b64encode(hmac.new(app_secret, data, digestmod=sha256).digest())
     return signature
-
-
-if __name__ == '__main__':
-    encryption_rc4('123456', '我是要加密的内容')
-    decrypt_rc4('123456', '5oiR5puX6Ke/5YuH5a+i55q35YaQ5ayl')
