@@ -14,29 +14,37 @@ init(autoreset=True)
 
 def main():
     if len(sys.argv) == 1:
-        sys.argv.append('--help')
+        sys.argv.append('--gui')
     parser = argparse.ArgumentParser(description='Hello Password')
-    parser.add_argument('-v', '--version', help='查看版本信息', action='version', version='%(prog)s v0.0.2')
-    parser.add_argument('-r', '--random_password', help='随机生成包含大小写字母/数字/符号的密码 (E.g hpass -r 16)',
+    parser.add_argument('-v', '--version', help='View version information', action='version', version='%(prog)s v0.0.2')
+    parser.add_argument('-r', '--random_password',
+                        help='Randomly generate passwords containing uppercase and lowercase letters/numbers/symbols',
                         action='store', dest='password_length')
-    parser.add_argument('-i', '--initialization', help='在当前目录下创建一个新的密码存储文件', action='store_true',
+    parser.add_argument('-i', '--initialization',
+                        help='Create or specify a password storage file in the current directory', action='store_true',
                         dest='init_switch')
-    parser.add_argument('-g', '--gui', help='启动GUI工作台', action='store', dest='primary_password')
+    parser.add_argument('-g', '--gui', help='Start GUI Workbench', action='store_true', dest='gui_switch')
     args = parser.parse_args()
 
     if args.init_switch:
         _primary_password = getpass.getpass("Your primary password: ")
+        _primary_password_repeat = getpass.getpass("Enter your primary password again: ")
+        if _primary_password != _primary_password_repeat:
+            print(Fore.RED + 'The password entered twice is different')
+            return
         _primary = hmac_sha256_digest(value=_primary_password).decode('utf-8')
-        config_dir = str(Path(__file__).resolve().parents[0] / 'config.json')
+        config_dir = Path(__file__).resolve().parents[0] / 'config.json'
         hello_password_data_dir = str(Path.cwd() / 'helloPasswordData.json')
         config_json = {'primary': _primary, 'hello_password_data_dir': hello_password_data_dir}
-        print(config_json)
-        hello_password_data_json = {'account': {}}
-        with open(config_dir, 'w', encoding='utf-8') as f:
+        if Path(hello_password_data_dir).is_file():
+            print(Fore.BLUE + 'Find the password storage file in the current directory')
+        else:
+            hello_password_data_json = {'account': {}}
+            with open(hello_password_data_dir, 'w', encoding='utf-8') as f:
+                json.dump(hello_password_data_json, f, indent=4, ensure_ascii=False)
+        with open(str(config_dir), 'w', encoding='utf-8') as f:
             json.dump(config_json, f, indent=4, ensure_ascii=False)
-        with open(hello_password_data_dir, 'w', encoding='utf-8') as f:
-            json.dump(hello_password_data_json, f, indent=4, ensure_ascii=False)
-        # https://blog.csdn.net/weixin_42296492/article/details/89331841
+        print(Fore.GREEN + 'Password storage file initialized successfully')
 
     if args.password_length:
         try:
@@ -44,10 +52,31 @@ def main():
             rp = random_password(length=_password_length)
             print(Fore.GREEN + rp)
         except ValueError:
-            print(Fore.RED + '参数 password_length 需要一个数字 (E.g hpass -r 16)')
+            print(Fore.RED + 'The parameter `password_length` requires a number (E.g hpass -r 16)')
 
-    if args.primary_password:
-        gui_start()
+    if args.gui_switch:
+        config_dir = Path(__file__).resolve().parents[0] / 'config.json'
+        if config_dir.is_file():
+            _primary_password = getpass.getpass("Your primary password: ")
+            _primary = hmac_sha256_digest(value=_primary_password).decode('utf-8')
+            with open(str(config_dir), 'r', encoding='utf-8') as f:
+                config_json = json.load(f)
+                if _primary != config_json['primary']:
+                    print(Fore.RED + 'Primary password is incorrect')
+                    return
+            gui_start(primary=_primary_password, hello_password_data_dir=config_json['hello_password_data_dir'])
+        else:
+            print(Fore.MAGENTA + 'Hello Password is a simple password management tool')
+            print(Fore.YELLOW + '  I need a new password storage file')
+            print(Fore.CYAN + '    $ cd [Password storage file directory]')
+            print(Fore.CYAN + '    $ hpass -i')
+            print(Fore.CYAN + '    $ [Your primary password]')
+            print(Fore.CYAN + '    $ [Enter your primary password again]')
+            print(Fore.YELLOW + '  I already have a password storage file')
+            print(Fore.CYAN + '    $ cd [Existing password storage file directory]')
+            print(Fore.CYAN + '    $ hpass -i')
+            print(Fore.CYAN + '    $ [Your primary password]')
+            print(Fore.CYAN + '    $ [Enter your primary password again]')
 
 
 if __name__ == '__main__':

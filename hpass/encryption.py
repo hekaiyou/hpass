@@ -44,12 +44,8 @@ def rc4_res_program(s_box, message):
 def encryption_rc4(key, message):
     s_box = rc4_init_s_box(key)
     res = rc4_res_program(s_box, message)
-    print("res用于加密字符串，加密后是：%res" % res)
     cipher = "".join(res)
-    print("加密后的字符串是：%s" % cipher)
-    print("加密后的输出(经过编码):")
     cipher_text = str(base64.b64encode(cipher.encode('utf-8')), 'utf-8')
-    print(cipher_text)
     return cipher_text
 
 
@@ -58,11 +54,7 @@ def decrypt_rc4(key, message):
     plain = base64.b64decode(message.encode('utf-8'))
     plain = bytes.decode(plain)
     res = rc4_res_program(s_box, plain)
-    print("res用于解密字符串，解密后是：%res" % res)
     cipher = "".join(res)
-    print("解密后的字符串是：%s" % cipher)
-    print("解密后的输出(没经过任何编码):")
-    print(cipher)
     return cipher
 
 
