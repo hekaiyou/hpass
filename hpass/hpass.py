@@ -4,26 +4,24 @@ import getpass
 import argparse
 from pathlib import Path
 from colorama import init, Fore
-# from hpass.hpass_gui import gui_start
-# from hpass.random_pass import random_password
-from hpass_gui import gui_start
-from encryption import random_password, hmac_sha256_digest
+from hpass.hpass_cli import cli_start
+from hpass.encryption import random_password, hmac_sha256_digest
 
 init(autoreset=True)
 
 
 def main():
     if len(sys.argv) == 1:
-        sys.argv.append('--gui')
+        sys.argv.append('--cli')
     parser = argparse.ArgumentParser(description='Hello Password')
-    parser.add_argument('-v', '--version', help='View version information', action='version', version='%(prog)s v0.0.2')
+    parser.add_argument('-v', '--version', help='View version information', action='version', version='%(prog)s v0.0.3')
     parser.add_argument('-r', '--random_password',
                         help='Randomly generate passwords containing uppercase and lowercase letters/numbers/symbols',
                         action='store', dest='password_length')
     parser.add_argument('-i', '--initialization',
                         help='Create or specify a password storage file in the current directory', action='store_true',
                         dest='init_switch')
-    parser.add_argument('-g', '--gui', help='Start GUI Workbench', action='store_true', dest='gui_switch')
+    parser.add_argument('-c', '--cli', help='Start CLI Workbench', action='store_true', dest='cli_switch')
     args = parser.parse_args()
 
     if args.init_switch:
@@ -54,7 +52,7 @@ def main():
         except ValueError:
             print(Fore.RED + 'The parameter `password_length` requires a number (E.g hpass -r 16)')
 
-    if args.gui_switch:
+    if args.cli_switch:
         config_dir = Path(__file__).resolve().parents[0] / 'config.json'
         if config_dir.is_file():
             _primary_password = getpass.getpass("Your primary password: ")
@@ -64,7 +62,7 @@ def main():
                 if _primary != config_json['primary']:
                     print(Fore.RED + 'Primary password is incorrect')
                     return
-            gui_start(primary=_primary_password, hello_password_data_dir=config_json['hello_password_data_dir'])
+            cli_start(primary=_primary_password, hello_password_data_dir=config_json['hello_password_data_dir'])
         else:
             print(Fore.MAGENTA + 'Hello Password is a simple password management tool')
             print(Fore.YELLOW + '  I need a new password storage file')
