@@ -105,7 +105,8 @@ setuptools.setup(
     # https://packaging.python.org/en/latest/requirements.html
     # Optional
     install_requires=[
-        "colorama>=0.4.1"
+        "colorama>=0.4.1",
+        "PrettyTable"
     ],
 
     # To provide executable scripts, use entry points in preference to the
