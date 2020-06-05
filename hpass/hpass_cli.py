@@ -15,6 +15,11 @@ class HPassCli:
             password_data_json = json.load(f)
         self.__password_data_json = password_data_json
 
+    def save_data_file(self):
+        with open(self.hello_password_data_dir, 'w', encoding='utf-8') as f:
+            json.dump(self.__password_data_json, f, indent=4, ensure_ascii=False)
+        return
+
     def get_password_list(self):
         pt_able = PrettyTable('ID Website Notes Username Email Phone'.split(' '))
         for k, v in self.__password_data_json['account'].items():
@@ -49,6 +54,7 @@ class HPassCli:
         _new_password_encryption = encryption_rc4(key=self.__primary, message=_new_password_str)
         self.__password_data_json['account'][new_password_dict['id']] = _new_password_encryption
         print(Fore.GREEN + 'The new password has been successfully added !')
+        self.save_data_file()
         return
 
 
