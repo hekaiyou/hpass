@@ -37,7 +37,7 @@ def main():
         if Path(hello_password_data_dir).is_file():
             print(Fore.BLUE + 'Find the password storage file in the current directory')
         else:
-            hello_password_data_json = {'account': {}}
+            hello_password_data_json = {'gradual': 10, 'account': {}}
             with open(hello_password_data_dir, 'w', encoding='utf-8') as f:
                 json.dump(hello_password_data_json, f, indent=4, ensure_ascii=False)
         with open(str(config_dir), 'w', encoding='utf-8') as f:
