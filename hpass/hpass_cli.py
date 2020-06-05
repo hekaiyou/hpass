@@ -36,6 +36,10 @@ class HPassCli:
         print(pt_able)
         return
 
+    def get_password(self, key):
+        print(key)
+        return
+
     def add_password(self):
         print(Fore.MAGENTA + 'The following is the information required for the new password :')
         website_input = input('Website = ')
@@ -78,6 +82,11 @@ def cli_start(primary, hello_password_data_dir):
                 h_pass_cli.add_password()
             elif user_input == 'random':
                 h_pass_cli.get_random_password()
+            elif 'get ' in user_input:
+                _key = user_input.split(' ')[1]
+                h_pass_cli.get_password(key=_key)
+            else:
+                print('H-Pass> ' + Fore.RED + 'eeee')
 
 
 if __name__ == '__main__':
