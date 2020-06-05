@@ -20,6 +20,11 @@ class HPassCli:
             json.dump(self.__password_data_json, f, indent=4, ensure_ascii=False)
         return
 
+    @staticmethod
+    def get_random_password():
+        print('H-Pass> ' + Fore.GREEN + random_password(length=16))
+        return
+
     def get_password_list(self):
         pt_able = PrettyTable('ID Website Notes Username Email Phone'.split(' '))
         for k, v in self.__password_data_json['account'].items():
@@ -71,6 +76,8 @@ def cli_start(primary, hello_password_data_dir):
                 h_pass_cli.get_password_list()
             elif user_input == 'add':
                 h_pass_cli.add_password()
+            elif user_input == 'random':
+                h_pass_cli.get_random_password()
 
 
 if __name__ == '__main__':
