@@ -2,7 +2,7 @@ import json
 import time
 from colorama import init, Fore
 from prettytable import PrettyTable
-from encryption import random_password, encryption_rc4, decrypt_rc4
+from hpass.encryption import random_password, encryption_rc4, decrypt_rc4
 
 init(autoreset=True)
 
@@ -26,7 +26,7 @@ class HPassCli:
             _password_length = int(length)
             print(Fore.GREEN + random_password(length=_password_length))
         except ValueError:
-            print('H-Pass> ' + Fore.RED + 'The parameter `Length` requires a number (E.g random 16)')
+            print(Fore.RED + 'The parameter `Length` requires a number ' + Fore.RESET + '(E.g random 16)')
         return
 
     def get_password_list(self):
@@ -54,7 +54,7 @@ class HPassCli:
                 print(Fore.GREEN + 'Password successfully deleted !')
                 self.save_data_file()
         except KeyError:
-            print('H-Pass> ' + Fore.RED + 'Password data not found')
+            print(Fore.RED + 'Password data not found')
         return
 
     def get_password(self, key):
@@ -66,7 +66,7 @@ class HPassCli:
             del _data_dict['time']
             print(json.dumps(_data_dict, sort_keys=True, indent=4))
         except KeyError:
-            print('H-Pass> ' + Fore.RED + 'Password data not found')
+            print(Fore.RED + 'Password data not found')
         return
 
     def add_password(self):
@@ -91,7 +91,7 @@ class HPassCli:
         _new_password_str = json.dumps(new_password_dict)
         _new_password_encryption = encryption_rc4(key=self.__primary, message=_new_password_str)
         self.__password_data_json['account'][new_password_dict['id']] = _new_password_encryption
-        print(Fore.GREEN + 'The new password has been successfully added !')
+        print(Fore.GREEN + 'The new password has been successfully added!')
         self.save_data_file()
         return
 
@@ -109,27 +109,35 @@ def cli_start(primary, hello_password_data_dir):
                 h_pass_cli.get_password_list()
             elif user_input == 'add':
                 h_pass_cli.add_password()
-            elif 'random ' in user_input:
-                _length = user_input.split(' ')[1]
+            elif 'random' in user_input:
+                user_input_list = user_input.split(' ')
+                if len(user_input_list) != 2:
+                    print('You may have to enter: ' + Fore.BLUE + 'random 16')
+                    continue
+                _length = user_input_list[1]
                 if _length == '':
-                    print('H-Pass> ' + Fore.RED + 'Missing parameter `Length` (E.g random 16)')
+                    print(Fore.RED + 'Missing parameter `Length` ' + Fore.RESET + '(E.g random 16)')
                 else:
                     h_pass_cli.get_random_password(length=_length)
-            elif 'get ' in user_input:
-                _key = user_input.split(' ')[1]
+            elif 'get' in user_input:
+                user_input_list = user_input.split(' ')
+                if len(user_input_list) != 2:
+                    print('You may have to enter: ' + Fore.BLUE + 'get 10')
+                    continue
+                _key = user_input_list[1]
                 if _key == '':
-                    print('H-Pass> ' + Fore.RED + 'Missing parameter `ID` (E.g get 10)')
+                    print(Fore.RED + 'Missing parameter `ID` ' + Fore.RESET + '(E.g get 10)')
                 else:
                     h_pass_cli.get_password(key=_key)
-            elif 'del ' in user_input:
-                _key = user_input.split(' ')[1]
+            elif 'del' in user_input:
+                user_input_list = user_input.split(' ')
+                if len(user_input_list) != 2:
+                    print('You may have to enter: ' + Fore.BLUE + 'del 10')
+                    continue
+                _key = user_input_list[1]
                 if _key == '':
-                    print('H-Pass> ' + Fore.RED + 'Missing parameter `ID` (E.g get 10)')
+                    print(Fore.RED + 'Missing parameter `ID` ' + Fore.RESET + '(E.g del 10)')
                 else:
                     h_pass_cli.del_password(key=_key)
             else:
-                print('H-Pass> ' + Fore.YELLOW + 'Is the instruction correct ?')
-
-
-if __name__ == '__main__':
-    cli_start('123456', 'C:\\Users\hekaiyou\Desktop\hpass\hpass\helloPasswordData.json')
+                print(Fore.YELLOW + 'Is the instruction correct?')

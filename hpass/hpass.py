@@ -14,7 +14,7 @@ def main():
     if len(sys.argv) == 1:
         sys.argv.append('--cli')
     parser = argparse.ArgumentParser(description='Hello Password')
-    parser.add_argument('-v', '--version', help='View version information', action='version', version='%(prog)s v0.0.3')
+    parser.add_argument('-v', '--version', help='View version information', action='version', version='%(prog)s v0.0.4')
     parser.add_argument('-r', '--random_password',
                         help='Randomly generate passwords containing uppercase and lowercase letters/numbers/symbols',
                         action='store', dest='password_length')
@@ -50,7 +50,7 @@ def main():
             rp = random_password(length=_password_length)
             print(Fore.GREEN + rp)
         except ValueError:
-            print(Fore.RED + 'The parameter `password_length` requires a number (E.g hpass -r 16)')
+            print(Fore.RED + 'The parameter `password_length` requires a number ' + Fore.RESET + '(E.g hpass -r 16)')
 
     if args.cli_switch:
         config_dir = Path(__file__).resolve().parents[0] / 'config.json'
