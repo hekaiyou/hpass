@@ -21,8 +21,12 @@ class HPassCli:
         return
 
     @staticmethod
-    def get_random_password():
-        print('H-Pass> ' + Fore.GREEN + random_password(length=16))
+    def get_random_password(length):
+        try:
+            _password_length = int(length)
+            print(Fore.GREEN + random_password(length=_password_length))
+        except ValueError:
+            print('H-Pass> ' + Fore.RED + 'The parameter `Length` requires a number (E.g random 16)')
         return
 
     def get_password_list(self):
@@ -36,8 +40,33 @@ class HPassCli:
         print(pt_able)
         return
 
+    def del_password(self, key):
+        try:
+            _message = self.__password_data_json['account'][key]
+            print(Fore.MAGENTA + 'Please confirm that the operation target is this print content. Press Y/N')
+            _data = decrypt_rc4(key=self.__primary, message=_message)
+            _data_dict = json.loads(_data)
+            print(Fore.CYAN + _data_dict['website'])
+            print(Fore.CYAN + _data_dict['notes'])
+            user_input = input('please enter: ')
+            if user_input == 'Y' or user_input == 'y':
+                del self.__password_data_json['account'][key]
+                print(Fore.GREEN + 'Password successfully deleted !')
+                self.save_data_file()
+        except KeyError:
+            print('H-Pass> ' + Fore.RED + 'Password data not found')
+        return
+
     def get_password(self, key):
-        print(key)
+        try:
+            _message = self.__password_data_json['account'][key]
+            _data = decrypt_rc4(key=self.__primary, message=_message)
+            _data_dict = json.loads(_data)
+            del _data_dict['id']
+            del _data_dict['time']
+            print(json.dumps(_data_dict, sort_keys=True, indent=4))
+        except KeyError:
+            print('H-Pass> ' + Fore.RED + 'Password data not found')
         return
 
     def add_password(self):
@@ -75,18 +104,31 @@ def cli_start(primary, hello_password_data_dir):
             break
         else:
             if user_input == 'filepath':
-                print('H-Pass> ' + h_pass_cli.hello_password_data_dir)
+                print(h_pass_cli.hello_password_data_dir)
             elif user_input == 'list':
                 h_pass_cli.get_password_list()
             elif user_input == 'add':
                 h_pass_cli.add_password()
-            elif user_input == 'random':
-                h_pass_cli.get_random_password()
+            elif 'random ' in user_input:
+                _length = user_input.split(' ')[1]
+                if _length == '':
+                    print('H-Pass> ' + Fore.RED + 'Missing parameter `Length` (E.g random 16)')
+                else:
+                    h_pass_cli.get_random_password(length=_length)
             elif 'get ' in user_input:
                 _key = user_input.split(' ')[1]
-                h_pass_cli.get_password(key=_key)
+                if _key == '':
+                    print('H-Pass> ' + Fore.RED + 'Missing parameter `ID` (E.g get 10)')
+                else:
+                    h_pass_cli.get_password(key=_key)
+            elif 'del ' in user_input:
+                _key = user_input.split(' ')[1]
+                if _key == '':
+                    print('H-Pass> ' + Fore.RED + 'Missing parameter `ID` (E.g get 10)')
+                else:
+                    h_pass_cli.del_password(key=_key)
             else:
-                print('H-Pass> ' + Fore.RED + 'eeee')
+                print('H-Pass> ' + Fore.YELLOW + 'Is the instruction correct ?')
 
 
 if __name__ == '__main__':
