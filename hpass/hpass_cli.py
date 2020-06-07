@@ -69,6 +69,26 @@ class HPassCli:
             print(Fore.RED + 'Password data not found')
         return
 
+    def set_password(self, key, set_key):
+        try:
+            _message = self.__password_data_json['account'][key]
+            _data = decrypt_rc4(key=self.__primary, message=_message)
+            _data_dict = json.loads(_data)
+            if set_key in _data_dict.keys():
+                print(Fore.MAGENTA + 'Original ' + set_key + ' = ' + _data_dict[set_key])
+                set_value_input = input('Now ' + set_key + ' = ')
+                _data_dict[set_key] = set_value_input
+                _now_password_str = json.dumps(_data_dict)
+                _now_password_encryption = encryption_rc4(key=self.__primary, message=_now_password_str)
+                self.__password_data_json['account'][key] = _now_password_encryption
+                self.save_data_file()
+                print(Fore.GREEN + 'Password value modified successfully!')
+            else:
+                print(Fore.RED + 'Password data does not have this value')
+        except KeyError:
+            print(Fore.RED + 'Password data not found')
+        return
+
     def add_password(self):
         print(Fore.MAGENTA + 'The following is the information required for the new password :')
         website_input = input('Website = ')
@@ -139,5 +159,16 @@ def cli_start(primary, hello_password_data_dir):
                     print(Fore.RED + 'Missing parameter `ID` ' + Fore.RESET + '(E.g del 10)')
                 else:
                     h_pass_cli.del_password(key=_key)
+            elif 'set' in user_input:
+                user_input_list = user_input.split(' ')
+                if len(user_input_list) != 3:
+                    print('You may have to enter: ' + Fore.BLUE + 'set 10 notes')
+                    continue
+                _set = user_input_list[2]
+                _key = user_input_list[1]
+                if _key == '' or _set == '':
+                    print(Fore.RED + 'Missing parameter `ID` ' + Fore.RESET + '(E.g set 10 notes)')
+                else:
+                    h_pass_cli.set_password(key=_key, set_key=_set)
             else:
                 print(Fore.YELLOW + 'Is the instruction correct?')
