@@ -29,14 +29,24 @@ class HPassCli:
             print(Fore.RED + 'The parameter `Length` requires a number ' + Fore.RESET + '(E.g random 16)')
         return
 
-    def get_password_list(self):
-        pt_able = PrettyTable('ID Website Notes Username Email Phone'.split(' '))
+    def get_password_all(self):
+        pt_able = PrettyTable('ID Website Notes'.split(' '))
         for k, v in self.__password_data_json['account'].items():
             _data = decrypt_rc4(key=self.__primary, message=v)
             _data_dict = json.loads(_data)
-            _data_list = [_data_dict['id'], _data_dict['website'], _data_dict['notes'], _data_dict['username'],
-                          _data_dict['email'], _data_dict['phone']]
+            _data_list = [_data_dict['id'], _data_dict['website'], _data_dict['notes']]
             pt_able.add_row(_data_list)
+        print(pt_able)
+        return
+
+    def get_password_search(self, search):
+        pt_able = PrettyTable('ID Website Notes'.split(' '))
+        for k, v in self.__password_data_json['account'].items():
+            _data = decrypt_rc4(key=self.__primary, message=v)
+            _data_dict = json.loads(_data)
+            if search in _data_dict['website'] or search in _data_dict['notes']:
+                _data_list = [_data_dict['id'], _data_dict['website'], _data_dict['notes']]
+                pt_able.add_row(_data_list)
         print(pt_able)
         return
 
@@ -62,9 +72,12 @@ class HPassCli:
             _message = self.__password_data_json['account'][key]
             _data = decrypt_rc4(key=self.__primary, message=_message)
             _data_dict = json.loads(_data)
-            del _data_dict['id']
-            del _data_dict['time']
-            print(json.dumps(_data_dict, sort_keys=True, indent=4))
+            print('website = ' + _data_dict['website'])
+            print('notes = ' + _data_dict['notes'])
+            print('username = ' + _data_dict['username'])
+            print('email = ' + _data_dict['email'])
+            print('phone = ' + _data_dict['phone'])
+            print('password = ' + Fore.GREEN + _data_dict['password'])
         except KeyError:
             print(Fore.RED + 'Password data not found')
         return
@@ -125,8 +138,8 @@ def cli_start(primary, hello_password_data_dir):
         else:
             if user_input == 'filepath':
                 print(h_pass_cli.hello_password_data_dir)
-            elif user_input == 'list':
-                h_pass_cli.get_password_list()
+            elif user_input == 'all':
+                h_pass_cli.get_password_all()
             elif user_input == 'add':
                 h_pass_cli.add_password()
             elif 'random' in user_input:
@@ -139,6 +152,16 @@ def cli_start(primary, hello_password_data_dir):
                     print(Fore.RED + 'Missing parameter `Length` ' + Fore.RESET + '(E.g random 16)')
                 else:
                     h_pass_cli.get_random_password(length=_length)
+            elif 'search' in user_input:
+                user_input_list = user_input.split(' ')
+                if len(user_input_list) != 2:
+                    print('You may have to enter: ' + Fore.BLUE + 'search google')
+                    continue
+                _search = user_input_list[1]
+                if _search == '':
+                    print(Fore.RED + 'Missing parameter `Search` ' + Fore.RESET + '(E.g search google)')
+                else:
+                    h_pass_cli.get_password_search(search=_search)
             elif 'get' in user_input:
                 user_input_list = user_input.split(' ')
                 if len(user_input_list) != 2:
