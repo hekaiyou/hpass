@@ -36,7 +36,7 @@ setuptools.setup(
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
     # Required
-    version="0.1.0",
+    version="0.1.1",
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
@@ -162,7 +162,7 @@ setuptools.setup(
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
+        'Topic :: Desktop Environment :: File Managers',
 
         # Pick your license as you wish
         'License :: OSI Approved :: MIT License',
@@ -171,14 +171,14 @@ setuptools.setup(
         # that you indicate whether you support Python 2, Python 3 or both.
         # These classifiers are *not* checked by 'pip install'. See instead
         # 'python_requires' below.
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         "Programming Language :: Python",
+
+        'Operating System :: OS Independent',
     ],
 
     # This field adds keywords for your project which will appear on the
@@ -186,7 +186,7 @@ setuptools.setup(
     #
     # Note that this is a string of words separated by whitespace, not a list.
     # Optional
-    keywords='password pass',
+    keywords='password pass hpass hello',
 
     # When your source code is in a subdirectory under the project root, e.g.
     # `src/`, it is necessary to specify the `package_dir` argument.
