@@ -159,7 +159,7 @@ def cli_start(primary, hello_password_data_dir):
                     continue
                 _search = user_input_list[1]
                 if _search == '':
-                    print(Fore.RED + 'Missing parameter `Search` ' + Fore.RESET + '(E.g search google)')
+                    print(Fore.RED + 'Missing parameter `Keyword` ' + Fore.RESET + '(E.g search google)')
                 else:
                     h_pass_cli.get_password_search(search=_search)
             elif 'get' in user_input:
@@ -193,5 +193,10 @@ def cli_start(primary, hello_password_data_dir):
                     print(Fore.RED + 'Missing parameter `ID` ' + Fore.RESET + '(E.g set 10 notes)')
                 else:
                     h_pass_cli.set_password(key=_key, set_key=_set)
+            elif user_input == 'help':
+                print('filepath'.zfill(18), '- Print the absolute path of the password storage file')
+                print('all'.zfill(18), '- View the basic information of all password data')
+                print('add'.zfill(18), '- Enter a new password data')
+                print('search <keyword>'.zfill(18), '- Find password data by keyword')
             else:
                 print(Fore.YELLOW + 'Is the instruction correct?')
