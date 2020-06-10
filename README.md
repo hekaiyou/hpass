@@ -2,6 +2,8 @@
 
 Hello Password
 
+**Why?** Because ssh-askpass-gnome was asking for a password even for confirmations. Also, its lack of margins bothered me.
+
 ## Installation
 
 As usual, the easiest way is with pip:
