@@ -195,9 +195,9 @@ def cli_start(primary, hello_password_data_dir):
                     h_pass_cli.set_password(key=_key, set_key=_set)
             elif user_input == 'help':
                 width = 18
-                print('filepath'.zfill(18), '- Print the absolute path of the password storage file')
-                print('all'.zfill(18), '- View the basic information of all password data')
-                print('add'.zfill(18), '- Enter a new password data')
+                print('filepath'.ljust(width, ' '), '- Print the absolute path of the password storage file')
+                print('all'.ljust(width, ' '), '- View the basic information of all password data')
+                print('add'.ljust(width, ' '), '- Enter a new password data')
                 print('search <keyword>'.ljust(width, ' '), '- Find password data by keyword')
                 print('random <length>'.ljust(width, ' '), '- Generate a secure password of specified length')
                 print('get <id>'.ljust(width, ' '), '- View the password data of the specified id')
