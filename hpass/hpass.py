@@ -35,7 +35,7 @@ def main():
         hello_password_data_dir = str(Path.cwd() / 'helloPasswordData.json')
         config_json = {'primary': _primary, 'hello_password_data_dir': hello_password_data_dir}
         if Path(hello_password_data_dir).is_file():
-            print(Fore.BLUE + 'Find the password storage file in the current directory')
+            print(Fore.CYAN + 'Find the password storage file in the current directory')
         else:
             hello_password_data_json = {'gradual': 10, 'account': {}}
             with open(hello_password_data_dir, 'w', encoding='utf-8') as f:
@@ -64,7 +64,7 @@ def main():
                     return
             cli_start(primary=_primary_password, hello_password_data_dir=config_json['hello_password_data_dir'])
         else:
-            print(Fore.MAGENTA + 'Hello Password is a simple password management tool')
+            print(Fore.GREEN + 'Hello Password is a simple password management tool')
             print(Fore.YELLOW + '  I need a new password storage file')
             print(Fore.CYAN + '    $ cd [Password storage file directory]')
             print(Fore.CYAN + '    $ hpass -i')

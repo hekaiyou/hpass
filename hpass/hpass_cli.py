@@ -1,6 +1,6 @@
 import json
 import time
-from colorama import init, Fore
+from colorama import init, Fore, Back
 from prettytable import PrettyTable
 from hpass.encryption import random_password, encryption_rc4, decrypt_rc4
 
@@ -53,7 +53,7 @@ class HPassCli:
     def del_password(self, key):
         try:
             _message = self.__password_data_json['account'][key]
-            print(Fore.MAGENTA + 'Please confirm that the operation target is this print content. Press Y/N')
+            print(Fore.WHITE + Back.RED + 'Please confirm that the operation target is this print content. Press Y/N')
             _data = decrypt_rc4(key=self.__primary, message=_message)
             _data_dict = json.loads(_data)
             print(Fore.CYAN + _data_dict['website'])
@@ -88,7 +88,7 @@ class HPassCli:
             _data = decrypt_rc4(key=self.__primary, message=_message)
             _data_dict = json.loads(_data)
             if set_key in _data_dict.keys():
-                print(Fore.MAGENTA + 'Original ' + set_key + ' = ' + _data_dict[set_key])
+                print(Fore.CYAN + 'Original ' + set_key + ' = ' + _data_dict[set_key])
                 set_value_input = input('Now ' + set_key + ' = ')
                 _data_dict[set_key] = set_value_input
                 _now_password_str = json.dumps(_data_dict)
@@ -103,7 +103,7 @@ class HPassCli:
         return
 
     def add_password(self):
-        print(Fore.MAGENTA + 'The following is the information required for the new password :')
+        print(Fore.CYAN + 'The following is the information required for the new password :')
         website_input = input('Website = ')
         notes_input = input('Notes = ')
         username_input = input('Username = ')
@@ -145,7 +145,7 @@ def cli_start(primary, hello_password_data_dir):
             elif 'random' in user_input:
                 user_input_list = user_input.split(' ')
                 if len(user_input_list) != 2:
-                    print('You may have to enter: ' + Fore.BLUE + 'random 16')
+                    print('You may have to enter: ' + Fore.CYAN + 'random 16')
                     continue
                 _length = user_input_list[1]
                 if _length == '':
@@ -155,7 +155,7 @@ def cli_start(primary, hello_password_data_dir):
             elif 'search' in user_input:
                 user_input_list = user_input.split(' ')
                 if len(user_input_list) != 2:
-                    print('You may have to enter: ' + Fore.BLUE + 'search google')
+                    print('You may have to enter: ' + Fore.CYAN + 'search google')
                     continue
                 _search = user_input_list[1]
                 if _search == '':
@@ -165,7 +165,7 @@ def cli_start(primary, hello_password_data_dir):
             elif 'get' in user_input:
                 user_input_list = user_input.split(' ')
                 if len(user_input_list) != 2:
-                    print('You may have to enter: ' + Fore.BLUE + 'get 10')
+                    print('You may have to enter: ' + Fore.CYAN + 'get 10')
                     continue
                 _key = user_input_list[1]
                 if _key == '':
@@ -175,7 +175,7 @@ def cli_start(primary, hello_password_data_dir):
             elif 'del' in user_input:
                 user_input_list = user_input.split(' ')
                 if len(user_input_list) != 2:
-                    print('You may have to enter: ' + Fore.BLUE + 'del 10')
+                    print('You may have to enter: ' + Fore.CYAN + 'del 10')
                     continue
                 _key = user_input_list[1]
                 if _key == '':
@@ -185,7 +185,7 @@ def cli_start(primary, hello_password_data_dir):
             elif 'set' in user_input:
                 user_input_list = user_input.split(' ')
                 if len(user_input_list) != 3:
-                    print('You may have to enter: ' + Fore.BLUE + 'set 10 notes')
+                    print('You may have to enter: ' + Fore.CYAN + 'set 10 notes')
                     continue
                 _set = user_input_list[2]
                 _key = user_input_list[1]
