@@ -1,6 +1,6 @@
 [![pypi_package](https://warehouse-camo.ingress.cmh1.psfhosted.org/42c9ba5237eeb8466d668acb98eb7f6a6fe04156/68747470733a2f2f696d672e736869656c64732e696f2f707970692f762f746f6e67676f6e673f7374796c653d666c61742d737175617265)](https://pypi.org/project/hpass/)
-[![mit_license](https://warehouse-camo.ingress.cmh1.psfhosted.org/773ff7b8bbd1614f2d7b49b12c6d8d2d0da0a796/68747470733a2f2f696d672e736869656c64732e696f2f707970692f6c2f746f6e67676f6e673f7374796c653d666c61742d737175617265)](https://opensource.org/licenses/mit/)
 [![python_org](https://warehouse-camo.ingress.cmh1.psfhosted.org/54aa1a9c61cbd023170f84b8220fd75607f6d404/68747470733a2f2f696d672e736869656c64732e696f2f707970692f707976657273696f6e732f746f6e67676f6e673f7374796c653d666c61742d737175617265)](https://www.python.org/)
+[![mit_license](https://warehouse-camo.ingress.cmh1.psfhosted.org/773ff7b8bbd1614f2d7b49b12c6d8d2d0da0a796/68747470733a2f2f696d672e736869656c64732e696f2f707970692f6c2f746f6e67676f6e673f7374796c653d666c61742d737175617265)](https://opensource.org/licenses/mit/)
 
 # Hello Password
 
