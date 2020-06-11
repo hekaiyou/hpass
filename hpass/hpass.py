@@ -14,7 +14,7 @@ def main():
     if len(sys.argv) == 1:
         sys.argv.append('--cli')
     parser = argparse.ArgumentParser(description='Hello Password')
-    parser.add_argument('-v', '--version', help='View version information', action='version', version='%(prog)s v0.1.2')
+    parser.add_argument('-v', '--version', help='View version information', action='version', version='%(prog)s v0.1.3')
     parser.add_argument('-r', '--random_password',
                         help='Randomly generate passwords containing uppercase and lowercase letters/numbers/symbols',
                         action='store', dest='password_length')
