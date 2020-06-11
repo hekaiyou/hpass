@@ -2,7 +2,7 @@
 
 Hello Password
 
-**Why?** Because ssh-askpass-gnome was asking for a password even for confirmations. Also, its lack of margins bothered me.
+**Why?** Because I can't believe the current password management software. In addition, the fact that the data file cannot be exported bothers me.
 
 ## Installation
 
