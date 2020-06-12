@@ -6,7 +6,7 @@
 
 **Why?** Because I can't believe the current password management software. In addition, the fact that the data file cannot be exported bothers me.
 
-## ⚡ Quickstart
+## Quickstart
 
 ### Use `hpass` enter Workbench
 
@@ -30,7 +30,7 @@ del <id>           - Delete the password data of the specified id
 set <id> <key>     - Modify the key value of the password data of specified id
 ```
 
-## 🛠 Installation
+## Installation
 
 As usual, the easiest way is with pip:
 
@@ -52,12 +52,12 @@ $ cd hpass
 $ python setup.py install
 ```
 
-## 🧠 Philosophy
+## Philosophy
 
-## 🔥 Features
+## Features
 
-## 🔗 Useful links
+## Useful links
 
-## 📝 License
+## License
 
 `hpass` is free and open-source software licensed under the [MIT License](https://github.com/hekaiyou/hpass/blob/master/LICENSE).
