@@ -6,7 +6,7 @@
 
 ## Quick Start
 
-### Use `hpass -i` Initialize the password data file in the specified directory
+### Use `hpass -i` Initialize password data file in specified directory
 
 ```powershell
 $  hpass -i
@@ -43,6 +43,38 @@ Email =
 Phone =
 Password = hiSVJ@77AEYFaZhu
 The new password has been successfully added!
+```
+
+#### Use `search` search password data
+
+```powershell
+H-Pass> search yeah
++----+-----------------------+--------------+
+| ID |        Website        |    Notes     |
++----+-----------------------+--------------+
+| 18 | https://www.yeah.net/ | 163 Yeah Mail |
++----+-----------------------+--------------+
+```
+
+#### Use `get` view password data
+
+```powershell
+H-Pass> get 18
+website = https://www.yeah.net/
+notes = 163 Yeah Mail
+username = xxxxxxx@yeah.net
+email =
+phone =
+password = hiSVJ@77AEYFaZhu
+```
+
+#### Use `set` change password data
+
+```powershell
+H-Pass> set 18 notes
+Original notes = 163 Yeah Mail
+Now notes = Yeah Mail
+Password value modified successfully!
 ```
 
 #### Use `help` view help information
