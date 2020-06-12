@@ -8,6 +8,28 @@
 
 ## ⚡ Quickstart
 
+### Use `hpass` enter Workbench
+
+```powershell
+$ hpass
+Your primary password:
+H-Pass>
+```
+
+#### Use `help` view help information
+
+```powershell
+H-Pass> help
+filepath           - Print the absolute path of the password storage file
+all                - View the basic information of all password data
+add                - Enter a new password data
+search <keyword>   - Find password data by keyword
+random <length>    - Generate a secure password of specified length
+get <id>           - View the password data of the specified id
+del <id>           - Delete the password data of the specified id
+set <id> <key>     - Modify the key value of the password data of specified id
+```
+
 ## 🛠 Installation
 
 As usual, the easiest way is with pip:
