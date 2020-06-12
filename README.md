@@ -4,7 +4,17 @@
 
 **Why?** Because I can't believe the current password management software. In addition, the fact that the data file cannot be exported bothers me.
 
-## Quickstart
+## Quick Start
+
+### Use `hpass -i` Initialize the password data file in the specified directory
+
+```powershell
+$  hpass -i
+Your primary password:
+Enter your primary password again:
+Find the password storage file in the current directory
+Password storage file initialized successfully
+```
 
 ### Use `hpass` enter Workbench
 
@@ -12,6 +22,27 @@
 $ hpass
 Your primary password:
 H-Pass>
+```
+
+#### Use `random` generate a secure random password
+
+```powershell
+H-Pass> random 16
+hiSVJ@77AEYFaZhu
+```
+
+#### Use `add` generate a secure random password
+
+```powershell
+H-Pass> add
+The following is the information required for the new password :
+Website = https://www.yeah.net/
+Notes = 163 Yeah Mail
+Username = xxxxxxx@yeah.net
+Email =
+Phone =
+Password = hiSVJ@77AEYFaZhu
+The new password has been successfully added!
 ```
 
 #### Use `help` view help information
@@ -53,8 +84,6 @@ $ python setup.py install
 ## Philosophy
 
 ## Features
-
-## Useful links
 
 ## License
 
