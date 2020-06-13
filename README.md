@@ -1,6 +1,6 @@
-[![PyPI](https://img.shields.io/pypi/v/1)](https://pypi.org/project/hpass/)
-
 # Hello Password
+
+A very simple secure password management tool.
 
 **Why?** Because I can't believe the current password management software. In addition, the fact that the data file cannot be exported bothers me.
 
@@ -112,10 +112,6 @@ $ git clone https://github.com/hekaiyou/hpass.git --recursive
 $ cd hpass
 $ python setup.py install
 ```
-
-## Philosophy
-
-## Features
 
 ## License
 
