@@ -113,6 +113,45 @@ $ cd hpass
 $ python setup.py install
 ```
 
+## Philosophy
+
+`hpass` uses RC4 algorithm for data encryption storage.
+
+### Use key to generate S box
+
+> The key-scheduling algorithm (KSA)
+
+```python
+def rc4_init_s_box(key):
+    s_box = list(range(256))
+    j = 0
+    for i in range(256):
+        j_step_1 = j + s_box[i]
+        j_step_2 = j_step_1 + ord(key[i % len(key)])
+        j_step_3 = j_step_2 % 256
+        j = j_step_3
+        s_box[i], s_box[j] = s_box[j], s_box[i]
+    return s_box
+```
+
+### Use S box to generate key stream
+
+> The key-scheduling algorithm (KSA)
+
+```python
+def rc4_res_program(s_box, message):
+    res = []
+    i = j = 0
+    for s in message:
+        i = (i + 1) % 256
+        j = (j + s_box[i]) % 256
+        s_box[i], s_box[j] = s_box[j], s_box[i]
+        t = (s_box[i] + s_box[j]) % 256
+        k = s_box[t]
+        res.append(chr(ord(s) ^ k))
+    return res
+```
+
 ## License
 
 `hpass` is free and open-source software licensed under the [MIT License](https://github.com/hekaiyou/hpass/blob/master/LICENSE).
