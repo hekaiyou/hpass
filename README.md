@@ -136,7 +136,7 @@ def rc4_init_s_box(key):
 
 ### Use S box to generate key stream
 
-> The key-scheduling algorithm (KSA)
+> The pseudo-random generation algorithm (PRGA)
 
 ```python
 def rc4_res_program(s_box, message):
