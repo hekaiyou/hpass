@@ -10,6 +10,20 @@ from hpass.encryption import random_password, hmac_sha256_digest
 init(autoreset=True)
 
 
+def start_help():
+    print(Fore.GREEN + 'Hello Password is a simple password management tool')
+    print(Fore.YELLOW + '  I need a new password storage file')
+    print(Fore.CYAN + '    $ cd [Password storage file directory]')
+    print(Fore.CYAN + '    $ hpass -i')
+    print(Fore.CYAN + '    $ [Your primary password]')
+    print(Fore.CYAN + '    $ [Enter your primary password again]')
+    print(Fore.YELLOW + '  I already have a password storage file')
+    print(Fore.CYAN + '    $ cd [Existing password storage file directory]')
+    print(Fore.CYAN + '    $ hpass -i')
+    print(Fore.CYAN + '    $ [Your primary password]')
+    print(Fore.CYAN + '    $ [Enter your primary password again]')
+
+
 def main():
     if len(sys.argv) == 1:
         sys.argv.append('--cli')
@@ -22,6 +36,7 @@ def main():
                         help='Create or specify a password storage file in the current directory', action='store_true',
                         dest='init_switch')
     parser.add_argument('-c', '--cli', help='Start CLI Workbench', action='store_true', dest='cli_switch')
+    parser.add_argument('-t', '--transfer', help='Reset primary password', action='store_true', dest='transfer_switch')
     args = parser.parse_args()
 
     if args.init_switch:
@@ -64,17 +79,31 @@ def main():
                     return
             cli_start(primary=_primary_password, hello_password_data_dir=config_json['hello_password_data_dir'])
         else:
-            print(Fore.GREEN + 'Hello Password is a simple password management tool')
-            print(Fore.YELLOW + '  I need a new password storage file')
-            print(Fore.CYAN + '    $ cd [Password storage file directory]')
-            print(Fore.CYAN + '    $ hpass -i')
-            print(Fore.CYAN + '    $ [Your primary password]')
-            print(Fore.CYAN + '    $ [Enter your primary password again]')
-            print(Fore.YELLOW + '  I already have a password storage file')
-            print(Fore.CYAN + '    $ cd [Existing password storage file directory]')
-            print(Fore.CYAN + '    $ hpass -i')
-            print(Fore.CYAN + '    $ [Your primary password]')
-            print(Fore.CYAN + '    $ [Enter your primary password again]')
+            start_help()
+
+    if args.transfer_switch:
+        config_dir = Path(__file__).resolve().parents[0] / 'config.json'
+        if config_dir.is_file():
+            _primary_password = getpass.getpass("Your primary password: ")
+            _primary = hmac_sha256_digest(value=_primary_password).decode('utf-8')
+            with open(str(config_dir), 'r', encoding='utf-8') as f:
+                config_json = json.load(f)
+                if _primary != config_json['primary']:
+                    print(Fore.RED + 'Primary password is incorrect')
+                    return
+            print(Fore.CYAN + 'Please enter the new primary password below')
+            _new_password = getpass.getpass("New primary password: ")
+            _new_password_repeat = getpass.getpass("Enter New primary password again: ")
+            if _new_password != _new_password_repeat:
+                print(Fore.RED + 'The password entered twice is different')
+                return
+            _new_primary = hmac_sha256_digest(value=_new_password).decode('utf-8')
+            config_json['primary'] = _new_primary
+            # dx
+            with open(str(config_dir), 'w', encoding='utf-8') as f:
+                json.dump(config_json, f, indent=4, ensure_ascii=False)
+        else:
+            start_help()
 
 
 if __name__ == '__main__':

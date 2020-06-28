@@ -31,7 +31,7 @@ H-Pass> random 16
 hiSVJ@77AEYFaZhu
 ```
 
-#### Use `add` generate a secure random password
+#### Use `add` to add a new account
 
 ```powershell
 H-Pass> add
