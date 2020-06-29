@@ -5,7 +5,7 @@ import argparse
 from pathlib import Path
 from colorama import init, Fore
 from hpass.hpass_cli import cli_start
-from hpass.encryption import random_password, hmac_sha256_digest
+from hpass.encryption import random_password, hmac_sha256_digest, decrypt_rc4, encryption_rc4
 
 init(autoreset=True)
 
@@ -99,7 +99,13 @@ def main():
                 return
             _new_primary = hmac_sha256_digest(value=_new_password).decode('utf-8')
             config_json['primary'] = _new_primary
-            # dx
+            with open(config_json['hello_password_data_dir'], 'r', encoding='utf-8') as f:
+                password_data_json = json.load(f)
+            for k, v in password_data_json['account'].items():
+                _data = decrypt_rc4(key=_primary_password, message=v)
+                password_data_json['account'][k] = encryption_rc4(key=_new_password, message=_data)
+            with open(config_json['hello_password_data_dir'], 'w', encoding='utf-8') as f:
+                json.dump(password_data_json, f, indent=4, ensure_ascii=False)
             with open(str(config_dir), 'w', encoding='utf-8') as f:
                 json.dump(config_json, f, indent=4, ensure_ascii=False)
         else:
