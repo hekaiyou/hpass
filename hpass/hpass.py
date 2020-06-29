@@ -108,6 +108,7 @@ def main():
                 json.dump(password_data_json, f, indent=4, ensure_ascii=False)
             with open(str(config_dir), 'w', encoding='utf-8') as f:
                 json.dump(config_json, f, indent=4, ensure_ascii=False)
+            print(Fore.GREEN + 'Primary password modified successfully!')
         else:
             start_help()
 
