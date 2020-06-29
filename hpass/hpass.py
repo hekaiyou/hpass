@@ -28,7 +28,7 @@ def main():
     if len(sys.argv) == 1:
         sys.argv.append('--cli')
     parser = argparse.ArgumentParser(description='Hello Password')
-    parser.add_argument('-v', '--version', help='View version information', action='version', version='%(prog)s v0.2.0')
+    parser.add_argument('-v', '--version', help='View version information', action='version', version='%(prog)s v0.2.1')
     parser.add_argument('-r', '--random_password',
                         help='Randomly generate passwords containing uppercase and lowercase letters/numbers/symbols',
                         action='store', dest='password_length')
@@ -36,7 +36,7 @@ def main():
                         help='Create or specify a password storage file in the current directory', action='store_true',
                         dest='init_switch')
     parser.add_argument('-c', '--cli', help='Start CLI Workbench', action='store_true', dest='cli_switch')
-    parser.add_argument('-t', '--transfer', help='Reset primary password', action='store_true', dest='transfer_switch')
+    parser.add_argument('-t', '--transfer', help='Reset primary password (Change master password)', action='store_true', dest='transfer_switch')
     args = parser.parse_args()
 
     if args.init_switch:

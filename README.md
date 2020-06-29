@@ -6,7 +6,25 @@ A very simple secure password management tool.
 
 ## Quick Start
 
-### Use `hpass -i` Initialize password data file in specified directory
+### Use `hpass -h` view detailed commands
+
+```powershell
+$ hpass -h
+usage: hpass [-h] [-v] [-r PASSWORD_LENGTH] [-i] [-c]
+
+Hello Password
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         View version information
+  -r PASSWORD_LENGTH, --random_password PASSWORD_LENGTH
+                        Randomly generate passwords containing uppercase and lowercase letters/numbers/symbols
+  -i, --initialization  Create or specify a password storage file in the current directory
+  -c, --cli             Start CLI Workbench
+  -t, --transfer        Reset primary password (Change master password)
+```
+
+### Use `hpass -i` initialize password data file in specified directory
 
 ```powershell
 $  hpass -i
@@ -77,7 +95,7 @@ Now notes = Yeah Mail
 Password value modified successfully!
 ```
 
-#### Use `help` view help information
+#### Use `help` view cli help information
 
 ```powershell
 H-Pass> help
